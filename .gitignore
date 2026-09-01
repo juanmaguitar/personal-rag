@@ -1,0 +1,4 @@
+node_modules/
+.index/
+.env
+CLAUDE.local.md

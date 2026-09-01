@@ -1,0 +1,7 @@
+node_modules
+.index
+.env
+*.test.mjs
+.git
+README.md
+CLAUDE.md
