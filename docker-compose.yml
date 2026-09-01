@@ -43,8 +43,10 @@ services:
       # DNS-rebinding allowlist: the service name the client will use.
       MCP_ALLOWED_HOSTS: mcp:8770
     volumes:
-      # Read-only: the container serves the index, the Mac writes it.
-      - ./indexes:/indexes:ro
+      # Read-only: the container serves the index, whoever builds it writes it.
+      # Absolute by default so it does not depend on where the orchestrator
+      # checks the project out. Override with INDEX_DIR.
+      - ${INDEX_DIR:-/opt/personal-rag/indexes}:/indexes:ro
     mem_limit: 512m
     depends_on:
       ollama:
