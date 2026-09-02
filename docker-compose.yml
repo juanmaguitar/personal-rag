@@ -51,6 +51,12 @@ services:
     depends_on:
       ollama:
         condition: service_healthy
+    networks:
+      # `default` keeps ollama reachable; `rag` is the shared network the chat
+      # frontend joins, so it can resolve http://mcp:8770/mcp. Declared here so
+      # a redeploy does not drop the attachment.
+      - default
+      - rag
     healthcheck:
       # 127.0.0.1, not "localhost": on Alpine that resolves to ::1 and the
       # check fails with connection refused, which triggers a rollback loop.
@@ -66,3 +72,10 @@ services:
 
 volumes:
   ollama-models:
+
+networks:
+  # Created out of band, shared with the chat frontend:
+  #   docker network create rag-net
+  rag:
+    external: true
+    name: rag-net
